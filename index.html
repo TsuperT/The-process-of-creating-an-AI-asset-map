@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资产组sop-第1版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --accent: #06b6d4;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius: 16px;
+            --radius-sm: 8px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 32px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.6s ease-out both;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .section:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text);
+            margin: 24px 0 14px;
+            padding-left: 12px;
+            border-left: 3px solid var(--primary-light);
+        }
+
+        h4 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin: 18px 0 10px;
+        }
+
+        ol, ul {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            padding-left: 8px;
+            position: relative;
+        }
+
+        ol > li {
+            list-style: none;
+            counter-increment: item;
+        }
+
+        ol {
+            counter-reset: item;
+        }
+
+        ol > li::before {
+            content: counter(item);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-left: -34px;
+            vertical-align: middle;
+        }
+
+        ul > li {
+            list-style: none;
+        }
+
+        ul > li::before {
+            content: '•';
+            color: var(--accent);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .problem-block {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            margin: 18px 0;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .problem-block:hover {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            transform: translateX(4px);
+        }
+
+        .problem-title {
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .problem-title:first-child {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        a:hover::after {
+            width: 100%;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            margin: 16px 0;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border-radius: var(--radius-sm);
+            padding: 16px 20px;
+            margin: 16px 0;
+            border-left: 4px solid #3b82f6;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .section {
+                padding: 24px 20px;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            ol > li::before {
+                margin-left: -30px;
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--primary-dark), var(--primary));
+        }
+
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="smooth-scroll">
+    <div class="container">
+        <header>
+            <h1>资产组 SOP</h1>
+            <p class="subtitle">标准化操作流程 · 第1版</p>
+        </header>
+
+        <div class="section">
+            <h2>一．工作流程</h2>
+            <ol>
+                <li>接收剧本,明确甲方要求清单（备注表里没有要求的话可以先问一下组长）注意交付周期</li>
+                <li>排产（基础信息登记）</li>
+                <li>收到通知（成员）</li>
+                <li>对应信息表格填写登记</li>
+                <li>成员接到剧本，AI分析剧本，研读剧本（必须步骤）
+                    <p>汇总统计所有人物、场景（注意场景中所提到的必要物品，如窗台、桌子、床等）、道具</p>
+                    <ul>
+                        <li>按集数统计资产出现的状态</li>
+                        <li>人物：如年龄、服饰、受伤状态</li>
+                        <li>场景：陈设位置、是否有改变或者损坏</li>
+                        <li>道具：全新或者损坏</li>
+                    </ul>
+                </li>
+                <li>
+                    <h3>6. 初稿制作执行标准:基调锁定：明确全剧本统一的氛基调、色彩基调、画风、固定尺寸。</h3>
+                </li>
+                <li>
+                    <h3>7. 制作优先级:优先完成人物初稿、单场景初稿、暂不推进全量三视图制作。</h3>
+                    <h4>先做底图：</h4>
+                    <ol>
+                        <li>人物9:16（单张）、场景16：9（单张）、道具（单张）随意尺寸。目的是方便对资产在原来基础上进行二次修改（如变装、状态更换）</li>
+                        <li>避免撞脸明星/网红
+                            <ul>
+                                <li>做完底图之后，打包底图和资产汇总文本（方便对照审核），先发给审核，审核通过再进行下一步</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+                <li>(人物大头/单张三视图/单场景)初稿先自己简单审核下，无大问题发给负责人审查（直接发图片）</li>
+                <li>负责人审核完毕无误后，全面生成三视图，发给负责人审核在（直接发图片）</li>
+                <li>审核无误，或者修改完成后，统一放到文件夹里上传，放入表格链接，并修改进度程度。</li>
+                <li>剧本全部完成后做积分的统计。</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>二． 注意事项</h2>
+            <ol>
+                <li>所有资产必须风格统一，不私自乱改画风，尺寸。</li>
+                <li>不使用侵权，违规的素材做AI生成，不做违规画面。</li>
+                <li>泡漫资产制作命名-剧本-姓名-接本日期</li>
+                <li>每一个剧本做完后要去把这个剧本的海报做出来在</li>
+                <li>按时完成分配的任务，遇到问题及时上报，不拖延工作。</li>
+                <li>做资产细分，每集都要对应资产，大场景小场景要有效匹配，熟读剧本，有效提炼所有资产，反馈总结上以表格的形式规范化，整体化，反馈复盘要全面，且一定要总结规整，制作在做以前先去看资产，然后制作以前反馈修改，整体化，资产在单项目场景氛围，整体和谐度上，一定要统一，舒适，资产后续审核进组情况同样更新为规范化，整体化审核，即制作整体剧集做完后统一反馈，资产参与一轮整体审核，后表格化规范化反馈。</li>
+                <li>资产百度网盘链接中要以剧集为序号，每集资产对应好</li>
+                <li>一定要保证氛围基调，色彩基调的统一，现在经常有主要场景和次要场景氛围基调不统一的情况。</li>
+                <li>后期制作的本子要是有制作反应不过审，或者平台上传失败的，我们要帮他们做一下素描化处理。</li>
+                <li>资产状态的时候尽可能减少同质化情况，如果制作那边纯靠平台能跑出来的东西，咱就省点功夫，不用跑那么多的角色状态，仅将重要的状态，或者变化特别大的状态做出来吧，但是各角色是不可缺少的。</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>三． 制作过程中常见问题的解决方式</h2>
+            <div class="problem-block">
+                <div class="problem-title">问题1</div>
+                <div class="problem-title">如何解决人物面部油腻感？</div>
+                <p>提示词加去油关键词：哑光肤质、细腻皮肤、无反光、无油光、清透肌肤 </p>
+                <p>负面词加：皮肤油腻、高光过强、油光满面、反光过度 </p>
+                <p>用修图工具轻微去反光、压高光</p>
+            </div>
+
+            <div class="problem-block">
+                <div class="problem-title">问题2</div>
+                <div class="problem-title">如何解决人物生成身高比例不协调或者人物身高控制把控？</div>
+                <p>提示词写死比例：X头身、标准人体比例、黄金比例、身高180cm</p>
+                <p>用修图工具轻微进行标注</p>
+                <p>找一个参照物做对比图</p>
+            </div>
+
+            <div class="problem-block">
+                <div class="problem-title">问题3</div>
+                <div class="problem-title">如何减少对场景的遗漏，对场景的环境评判？</div>
+                <p>仔细阅读剧本（必要步骤），当在场景出现小范围描述时（如窗口、房间门等等），建议单独生成此场景。</p>
+                <p>可以先自己模拟一遍运镜，根据运镜做此场景的画面（画面风格元素要统一）。</p>
+            </div>
+
+            <div class="problem-block">
+                <div class="problem-title">问题4</div>
+                <div class="problem-title">如何提高整体审美感，让人物和场景相契合，让画面看起来是更加协调。让人物和场景更加符合正常逻辑，减少ai味道？</div>
+                <p>审美需要积累，建议按照自己喜欢的风格结合大众审美进行审美训练（如站酷、A站、P站）</p>
+                <p>统一色调 / 色温：暖调全暖、冷调全冷 </p>
+                <p>用影视级关键词：ARRI拍摄、电影感、写实光影、自然透视 </p>
+                <p>不堆过度特效特效词，检查一下提示词，过多相似或对立提示词会产生画面过度重叠或冲突 </p>
+                <p>遵循现实逻辑：近大远小、遮挡关系、地面接触自然</p>
+            </div>
+
+            <div class="problem-block">
+                <div class="problem-title">问题5</div>
+                <div class="problem-title">如何理解ai的基本逻辑，如何评判ai 的优缺点合理利用ai？</div>
+                <p>正确用法：AI 做初稿，人做控制 + 精修 + 统一风格，不依赖纯生成</p>
+                <p>以下视频同样适用于问题7</p>
+                <p>生图逻辑：<a href="https://v.douyin.com/iTIUs2IHVTc/" target="_blank">https://v.douyin.com/iTIUs2IHVTc/</a></p>
+                <p>生图技巧：<a href="https://v.douyin.com/cQJZ1OK7SHw/" target="_blank">https://v.douyin.com/cQJZ1OK7SHw/</a></p>
+            </div>
+
+            <div class="problem-block">
+                <div class="problem-title">问题6</div>
+                <div class="problem-title">如何处理画面中的复杂化问题：画面内容过多出现的画质不清晰问题？</div>
+                <p>减少冗余元素，不堆太多道具 / 装饰 </p>
+                <p>开高清修复，提高分辨率，降低重绘幅度 </p>
+                <p>后期做轻微锐化 + 降噪</p>
+            </div>
+
+            <div class="problem-block">
+                <div class="problem-title">问题7</div>
+                <div class="problem-title">编写关键词时候如何才能更有逻辑，表达如何清晰准确，怎样提高对关键词的编写来提高抽卡的成功率？</div>
+                <p>固定分层结构：</p>
+                <p>风格画质 → 2. 主体 → 3. 环境 → 4. 光影构图 → 5. 负面词</p>
+                <p>用精准名词，不用模糊词（比如 "唐代襦裙"≠"古装"） </p>
+                <p>重要词加权重，不重要的后置</p>
+            </div>
+
+            <div class="problem-block">
+                <div class="problem-title">问题8</div>
+                <div class="problem-title">如何将场景中的色调，氛围单个场景风格保持与整体场景风格相似？</div>
+                <p>统一色卡：主色 / 辅色 / 色温 </p>
+                <p>全项目用同一模型、参数、后缀提示词</p>
+            </div>
+
+            <div class="problem-block">
+                <div class="problem-title">问题9</div>
+                <div class="problem-title">怎么统一古装剧朝代？</div>
+                <p>先做朝代元素表参考，按朝代清单核对：服饰、发型、建筑、道具、纹样</p>
+                <p>关键词必须写清：唐代、宋代、明代，不写 "古装"</p>
+                <p>禁止跨朝代元素混搭</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>四． 提示词</h2>
+            <ol>
+                <li>先分析剧本：这是男频还是女频、主要对标人群是哪些、剧中贴近哪个朝代、故事主要讲了哪些（按照剧本简单说明）</li>
+                <li>分析这篇文档、给我提炼人物、场景、及道具、按照出场顺序排好、并标注好重要程度。</li>
+            </ol>
+
+            <h3>一． 人物</h3>
+            <ol>
+                <li>全人物形象：结合上面的分析，再将这部小说所需要的人物提炼出来，要具体到人物的性别，年龄，不同时期(除非文中有提到不同时期，否则只有一个时期)的五官长相(面部装束，如有污渍、受伤等等情况)、穿着(如果文中有说明的话要给我标出来)，五官描述得详细一点，不要形容词汇。</li>
+                <li value="3">单个人物形象：结合上面的分析，再将这部小说人物的XX提炼出来，要具体到人物的性别，年龄，体型，发型等等不同时期(除非文中有提到不同时期，否则只有一个时期)的五官长相(面部装束，如有污渍、受伤等等情况)、穿着，五官描述得详细一点(要兼顾到细节)，不要形容词汇。</li>
+                <li value="4">人物三视图单个9：16：全身图，看到鞋，真人写实，站姿，白色背景，双手自然下垂，无特殊动作，正视图，正面，平视，超真实，超清晰，极致细节，面部超清晰细节丰富，只有人物无其他物品。</li>
+                <li value="5">人物三视图16：9：左上角生成人物半身像，左下方生成人物衣服细节和配饰细节图五张并且在图下方标注细节配饰名称，右边生成人物三视图，右下方生成人物五种表情，白色背景。</li>
+            </ol>
+
+            <h3>二． 场景</h3>
+            <ol>
+                <li>结合上面的分析，再将这部小说所需要的场景提炼出来，给我场景的画面提示词（场景是什么样子），要具体到场景的不同时期（除非文中有提到不同时期，否则只有一个时期）的陈设等细节，描述得详细一点，不要形容词汇，不要人物。</li>
+                <li>超写实光影，电影级画面质感，写实主义场景构图，细腻的材质纹理，真实物理光影反射，细节拉满，写实美学，电影级色彩调校，写实化环境氛围，精准的空间透视。<br>不出现任何人物、角色、以第一张图为基础、从上到下依次以第一张图的中心点为基点生成四张不同视角下的场景，画面风格参考：xxx</li>
+            </ol>
+
+            <h3>三． 物品</h3>
+            <ol>
+                <li>结合上面的分析，再将这部小说中出现频率比较高的道具提炼出来，要具体（如不同时期的外观不一样，或者有污渍、受损等情况）描述的详细一点，不要形容词汇。</li>
+                <li>超写实光影，电影级画面质感，写实主义构图，细腻的材质纹理，真实物理光影反射，细节拉满，写实美学，电影级色彩调校，写实化氛围，精准的空间透视。白色背景，正视图。不出现任何人物、角色，以第一张图为基础，在图片下方生成2~4张物品的细节，画面风格参考：xxx</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
